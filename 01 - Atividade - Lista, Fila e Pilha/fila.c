@@ -98,9 +98,9 @@ int main(int argc, char *argv[]) {
 	char numeros[BUFFER_SIZE];
 	struct Aluno *fila_alunos = NULL;
 
-    /* Criação do cabeça de fila */
-    fila_alunos = malloc(sizeof(struct Aluno));
-    fila_alunos->proximo = NULL;
+	/* Criação do cabeça de fila */
+	fila_alunos = malloc(sizeof(struct Aluno));
+	fila_alunos->proximo = NULL;
 
 	while(1){
     	printf("Digite 1 para inserir um valor na fila ou 2 para remover um valor da fila: ");
