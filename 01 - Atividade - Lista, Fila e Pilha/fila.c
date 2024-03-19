@@ -76,7 +76,7 @@ int Remove_fila(struct Aluno *fila){
         struct Aluno *p_fila = fila;
 
         /* Remove o valor da fila - NOTA: Na estrutura fila, remove-se o valor inserido primeiro, portanto não é necessário percorrer a estrutura inteira */
-        if(p_fila != NULL){
+        if(p_fila->proximo != NULL){
             printf("Removendo %d da fila\n", p_fila->proximo->valor);
             /* Atribui a um ponteiro o elemento a ser removido */
             struct Aluno *p_remover = p_fila->proximo;

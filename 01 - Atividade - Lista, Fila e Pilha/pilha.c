@@ -84,7 +84,7 @@ int Remove_pilha(struct Aluno *pilha){
         }
 
         /* Remove o valor da pilha */
-        if(p_pilha != NULL){
+        if(p_pilha->proximo != NULL){
             printf("Removendo %d da pilha\n", p_pilha->proximo->valor);
             /* O elemento a ser removido é o próximo da pilha */
             struct Aluno *p_remover = p_pilha->proximo;
