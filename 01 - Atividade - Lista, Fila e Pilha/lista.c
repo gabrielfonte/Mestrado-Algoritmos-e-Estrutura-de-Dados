@@ -118,7 +118,7 @@ int main(int argc, char *argv[]) {
         fflush(stdin);
 
     	if(opcao == INSERIR){
-        	printf("Digite um valor para inserir na lista: ");
+            printf("Digite um valor para inserir na lista: ");
             scanf("%[0-9-+, ]", numeros);
             char *num = strtok(numeros,", \n");
             while(num != NULL){
