@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
             }
     	}
     	else if(opcao == REMOVER){
-        	printf("Digite um valor para remover da lista: ");
+            printf("Digite um valor para remover da lista: ");
             scanf("%[0-9-+, ]", numeros);
             char *num = strtok(numeros,", \n");
             while(num != NULL){
