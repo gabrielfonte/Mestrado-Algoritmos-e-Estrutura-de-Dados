@@ -68,7 +68,7 @@ int Insere_fila(struct Aluno *fila, int num){
     return FALHA;
 }
 
-int Remove_fila(struct Aluno *fila){
+int Remove_fila(struct Aluno *fila, int *elemento_removido){
     /* Verifica se a fila é um endereço válido */    
     if(fila != NULL){
 
@@ -77,13 +77,16 @@ int Remove_fila(struct Aluno *fila){
 
         /* Remove o valor da fila - NOTA: Na estrutura fila, remove-se o valor inserido primeiro, portanto não é necessário percorrer a estrutura inteira */
         if(p_fila->proximo != NULL){
-            printf("Removendo %d da fila\n", p_fila->proximo->valor);
+            int valor = p_fila->proximo->valor;
+            printf("Removendo %d da fila\n", valor);
             /* Atribui a um ponteiro o elemento a ser removido */
             struct Aluno *p_remover = p_fila->proximo;
             /* Este elemento deve ser substituído pelo ponteiro do próximo, de forma a ligar a estrutura novamente */
             p_fila->proximo = p_remover->proximo;
             /* Libera a memória do elemento */
             free(p_remover);
+            /* Atribui o valor a variável elemento removido */
+            *elemento_removido = valor;
             return SUCESSO;
         }
     }
@@ -118,11 +121,12 @@ int main(int argc, char *argv[]) {
             }
     	}
     	else if(opcao == REMOVER){
-            char *num = strtok(numeros,", \n");
-            while(num != NULL){
-                int converted = atoi(num);
-                Remove_fila(fila_alunos);
-                num = strtok(NULL,", \n");
+            int elemento_removido;
+            if(Remove_fila(fila_alunos, &elemento_removido) == SUCESSO) {
+                printf("Elemento removido: %d\n", elemento_removido);
+            }
+            else {
+                printf("Fila vazia\n");
             }
     	}
     	else{

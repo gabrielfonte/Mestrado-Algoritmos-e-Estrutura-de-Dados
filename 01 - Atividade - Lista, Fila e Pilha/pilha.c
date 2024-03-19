@@ -68,7 +68,7 @@ int Insere_pilha(struct Aluno *pilha, int num){
     return FALHA;
 }
 
-int Remove_pilha(struct Aluno *pilha){
+int Remove_pilha(struct Aluno *pilha, int *elemento_removido){
     /* Verifica se a pilha é um endereço válido */    
     if(pilha != NULL){
 
@@ -85,6 +85,7 @@ int Remove_pilha(struct Aluno *pilha){
 
         /* Remove o valor da pilha */
         if(p_pilha->proximo != NULL){
+            int valor = p_pilha->proximo->valor;
             printf("Removendo %d da pilha\n", p_pilha->proximo->valor);
             /* O elemento a ser removido é o próximo da pilha */
             struct Aluno *p_remover = p_pilha->proximo;
@@ -92,6 +93,8 @@ int Remove_pilha(struct Aluno *pilha){
             p_pilha->proximo = p_remover->proximo;
             /* Desaloca a memória do elemento removido */
             free(p_remover);
+            /* Atribui o valor a variável elemento removido */
+            *elemento_removido = valor;
             return SUCESSO;
         }
     }
@@ -127,11 +130,12 @@ int main(int argc, char *argv[]) {
             }
     	}
     	else if(opcao == REMOVER){
-            char *num = strtok(numeros,", \n");
-            while(num != NULL){
-                int converted = atoi(num);
-                Remove_pilha(pilha_alunos);
-                num = strtok(NULL,", \n");
+            int elemento_removido;
+            if(Remove_pilha(pilha_alunos, &elemento_removido) == SUCESSO) {
+                printf("Elemento removido: %d\n", elemento_removido);
+            }
+            else {
+                printf("Pilha vazia\n");
             }
     	}
     	else{
