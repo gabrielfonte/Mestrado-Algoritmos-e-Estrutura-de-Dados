@@ -108,9 +108,9 @@ int main(int argc, char *argv[]) {
 	char numeros[BUFFER_SIZE];
 	struct Aluno *lista_alunos = NULL;
 
-    /* Criação do cabeça de lista */
-    lista_alunos = malloc(sizeof(struct Aluno));
-    lista_alunos->proximo = NULL;
+	/* Criação do cabeça de lista */
+	lista_alunos = malloc(sizeof(struct Aluno));
+	lista_alunos->proximo = NULL;
 
 	while(1){
     	printf("Digite 1 para inserir um valor na lista ou 2 para remover um valor da lista: ");
