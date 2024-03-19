@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
 	while(1){
     	printf("Digite 1 para inserir um valor na pilha ou 2 para remover um valor da pilha: ");
     	scanf("%d", &opcao);
-        fflush(stdin);
+        while (getchar() != '\n'); // Limpa o buffer do teclado
 
     	if(opcao == INSERIR){
             printf("Digite um valor para inserir na pilha: ");
