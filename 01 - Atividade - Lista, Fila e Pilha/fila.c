@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
         fflush(stdin);
 
     	if(opcao == INSERIR){
-        	printf("Digite um valor para inserir na fila: ");
+	    printf("Digite um valor para inserir na fila: ");
             scanf("%[0-9-+, ]", numeros);
             char *num = strtok(numeros,", \n");
             while(num != NULL){
