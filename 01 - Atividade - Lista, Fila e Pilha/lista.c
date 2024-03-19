@@ -82,17 +82,17 @@ int Remove_lista(struct Aluno *lista, int num){
             while(p_lista->proximo->proximo != NULL && p_lista->proximo->valor != num){
                 p_lista = p_lista->proximo;
             }
-        }
 
-        /* Remove o elemento da lista, caso este seja o valor especificado */
-        if(p_lista->proximo->valor == num){
-            printf("Removendo %d da lista\n", num);
-            /* O elemento a ser removido é o próximo da lista */
-            struct Aluno *p_remover = p_lista->proximo;
-            /* Este elemento deve ser substituído pelo ponteiro do próximo, de forma a ligar a lista novamente */
-            p_lista->proximo = p_remover->proximo;
-            /* Desaloca a memória do elemento removido */
-            free(p_remover);
+            /* Remove o elemento da lista, caso este seja o valor especificado */
+            if(p_lista->proximo->valor == num){
+                printf("Removendo %d da lista\n", num);
+                /* O elemento a ser removido é o próximo da lista */
+                struct Aluno *p_remover = p_lista->proximo;
+                /* Este elemento deve ser substituído pelo ponteiro do próximo, de forma a ligar a lista novamente */
+                p_lista->proximo = p_remover->proximo;
+                /* Desaloca a memória do elemento removido */
+                free(p_remover);
+            }
         }
 
         return SUCESSO;
