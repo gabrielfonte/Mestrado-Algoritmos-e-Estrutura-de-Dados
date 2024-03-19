@@ -106,9 +106,9 @@ int main(int argc, char *argv[]) {
 	char numeros[BUFFER_SIZE];
 	struct Aluno *pilha_alunos = NULL;
 
-    /* Criação do cabeça de pilha */
-    pilha_alunos = malloc(sizeof(struct Aluno));
-    pilha_alunos->proximo = NULL;
+	/* Criação do cabeça de pilha */
+	pilha_alunos = malloc(sizeof(struct Aluno));
+	pilha_alunos->proximo = NULL;
 
 	while(1){
     	printf("Digite 1 para inserir um valor na pilha ou 2 para remover um valor da pilha: ");
@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
         fflush(stdin);
 
     	if(opcao == INSERIR){
-        	printf("Digite um valor para inserir na pilha: ");
+            printf("Digite um valor para inserir na pilha: ");
             scanf("%[0-9-+, ]", numeros);
 
             char *num = strtok(numeros,", \n");
