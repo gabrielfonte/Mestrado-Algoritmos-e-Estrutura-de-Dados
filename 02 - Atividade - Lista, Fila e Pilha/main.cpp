@@ -69,7 +69,7 @@ int main(){
             }
         }
         else{
-            printf("Opção inválida\n");
+            std::cout << "Opção inválida" << std::endl;
             delete estrutura_generica;
             return 1;
         }
