@@ -1,32 +1,26 @@
 CC = g++
+FLAGS += -std=c++11
 
 INCLUDE_DIR = '${shell pwd}'
 
-%.o: %.c
-	@$(CC) -I$(INCLUDE_DIR) -c -g $< -o $@
-	@echo "CC $<"
-
 all:
-	$(CC) -I$(INCLUDE_DIR) lista.cpp -o lista.o -c
+	$(CC) -I$(INCLUDE_DIR) $(FLAGS) lista.cpp -o lista.o -c
 	@echo "CC $<"
 
-	$(CC) -I$(INCLUDE_DIR) pilha.cpp -o pilha.o -c
+	$(CC) -I$(INCLUDE_DIR) $(FLAGS) pilha.cpp -o pilha.o -c
 	@echo "CC $<"
 
-	$(CC) -I$(INCLUDE_DIR) main.cpp -o main.o -c
+	$(CC) -I$(INCLUDE_DIR) $(FLAGS) fila.cpp -o fila.o -c
 	@echo "CC $<"
 
-	$(CC) -o atividade pilha.o lista.o main.o
+	$(CC) -I$(INCLUDE_DIR) $(FLAGS) main.cpp -o main.o -c
 	@echo "CC $<"
 
-lista:
-	$(CC) lista.cpp -o lista.o
-
-fila:
-	$(CC) fila.cpp -o fila.o
-
-pilha:
-	$(CC) pilha.cpp -o pilha.o
+	$(CC) -o atividade $(FLAGS) fila.o pilha.o lista.o main.o
+	@echo "CC $<"
 
 clean:
 	rm -rf *.o
+
+run:
+	./atividade

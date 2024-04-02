@@ -9,9 +9,8 @@
 
 class pilha: public lista {
     public:
-    int Insere(int num) override;
-    int Remove();
+        int Insere(int num) override;
+        int Remove(int num = DEFAULT) override;
 };
-
 
 #endif //MESTRADO_ALGORITMOS_E_ESTRUTURA_DE_DADOS_PILHA_HPP
