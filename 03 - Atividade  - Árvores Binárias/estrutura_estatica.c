@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BUFFER_SIZE  512
-#define MAX_ELEMENTS 100
+#define BUFFER_SIZE 512
+#define NUM_NODES   500
 
 #define print_line() printf("-------------------------------------------------\n")
 
@@ -21,98 +21,118 @@ enum codigos_erro {
     FALHA
 };
 
-int Arvore[MAX_ELEMENTS];
-typedef int Arv;
+struct Arvore {
+    int valor;
+    int usado;
+};
 
-int Insere_Bin(Arv *arvore, int num){
-    if(arvore != NULL){
-        if(num < arvore[0]){
-
-        }
-        else if(num > arvore[0]){
-            printf("Inserindo %d\n", num);
-        }
-        else if(num == arvore[0]){
-            printf("Valor já existe na árvore\n");
-        }
-    }
-    else if(num < (*arvore)->valor){
-        return Insere_Bin(&((*arvore)->esq), num);
-    }
-    else if(num > (*arvore)->valor){
-        return Insere_Bin(&((*arvore)->dir), num);
-    }
-
-    return FALHA;
-}
-
-int Remove_Bin(Arv *arvore, int num){
-    if((*arvore) != NULL){
-        if(num < (*arvore)->valor) {
-            Remove_Bin(&((*arvore)->esq), num);
-        }
-        else if(num > (*arvore)->valor){
-            Remove_Bin(&((*arvore)->dir), num);
-        }
-        else{
-            printf("Removendo %d\n", (*arvore)->valor);
-            /* Subárvore esquerda e direita são nulas, portanto é só fazer a remoção do nó */
-            if((*arvore)->esq == NULL && (*arvore)->dir == NULL){
-                free(*arvore); // Remove o nó
-                *arvore = NULL; // Atribui o NULL, sinalizando que pode ser inserido um novo valor
-            }
-                /* Apenas a subárvore esquerda é nula, portanto o valor apontado pela subárvore é substituído */
-            else if((*arvore)->esq == NULL) {
-                Arv aux = *arvore; // Guarda o valor do nó a ser removido
-                *arvore = (*arvore)->dir; // Substitui o valor do nó a ser removido pelo valor da subárvore direita
-                free(aux); // Libera o valor do nó a ser removido
-            }
-                /* Apenas a subárvore direita é nula, portanto o valor apontado pela subárvore é substituído */
-            else if((*arvore)->dir == NULL){
-                Arv aux = *arvore; // Guarda o valor do nó a ser removido
-                *arvore = (*arvore)->esq; // Substitui o valor do nó a ser removido pelo valor da subárvore esquerda
-                free(aux); // Libera o valor do nó a ser removido
-            }
-                /* Nenhuma das subárvores são nulas */
-            else if((*arvore)->esq != NULL && (*arvore)->dir != NULL){
-                Arv aux = *arvore; // Guarda o valor do nó a ser removido
-                Arv aux2 = (*arvore)-> esq; // Guarda o valor da subárvore esquerda
-                /* Procura o maior valor na subárvore esquerda*/
-                while(aux->dir != NULL){
-                    aux2 = aux2->dir;
-                }
-                *arvore = aux2;
-                free(aux); // Libera o valor do nó a ser removido
-            }
-            return SUCESSO;
-        }
-    }
-
-    return FALHA;
-}
-
-void Pre_Ordem(Arv *arvore){
-    if((*arvore) != NULL){
-        printf("%d\n", (*arvore)->valor);
-        Pre_Ordem(&(*arvore)->esq);
-        Pre_Ordem(&(*arvore)->dir);
+void cria_arvore(struct Arvore *arvore, int number){
+    int p;
+    arvore[0].valor = number;
+    arvore[0].usado = 1;
+    for(p = 1; p < NUM_NODES; p++){
+        arvore[p].usado = 0;
     }
 }
 
-void In_Ordem(Arv *arvore){
-    if((*arvore) != NULL){
-        In_Ordem(&(*arvore)->esq);
-        printf("%d\n", (*arvore)->valor);
-        In_Ordem(&(*arvore)->dir);
+void setleft(struct Arvore *arvore, int p, int number){
+    int q;
+    q = 2 * p + 1;
+    if(q >= NUM_NODES){
+        printf("Estouro do vetor\n");
+        exit(1);
+    }
+    else if(arvore[q].usado){
+        printf("Insercao incorreta\n");
+        exit(1);
+    }
+    else {
+        arvore[q].valor = number;
+        arvore[q].usado = 1;
     }
 }
 
-void Pos_Ordem(Arv *arvore){
-    if((*arvore) != NULL){
-        Pos_Ordem(&(*arvore)->esq);
-        Pos_Ordem(&(*arvore)->dir);
-        printf("%d\n", (*arvore)->valor);
+void setright(struct Arvore *arvore, int p, int number){
+    int q;
+    q = 2 * p + 2;
+    if(q >= NUM_NODES){
+        printf("Estouro do vetor\n");
+        exit(1);
     }
+    else if(arvore[q].usado){
+        printf("Insercao incorreta\n");
+        exit(1);
+    }
+    else {
+        arvore[q].valor = number;
+        arvore[q].usado = 1;
+    }
+}
+
+int Insere_Bin(struct Arvore *arvore, int num){
+    int p, q;
+    p = q = 0;
+    if(!arvore[0].usado){
+        cria_arvore(arvore, num);
+        return SUCESSO;
+    }
+    while(q < NUM_NODES && arvore[q].usado && num != arvore[p].valor){
+        p = q;
+        if(num < arvore[p].valor){
+            q = 2 * p + 1;
+        }
+        else {
+            q = 2 * p + 2;
+        }
+    }
+    if(num == arvore[p].valor){
+        printf(" %d esta repetido\n", num);
+        return FALHA;
+    }
+    else if(num < arvore[p].valor){
+        setleft(arvore, p, num);
+        return SUCESSO;
+    }
+    else {
+        setright(arvore, p, num);
+        return SUCESSO;
+    }
+}
+
+int Remove_Bin(struct Arvore *arvore, int num){
+    int p, q;
+    p = q = 0;
+    if(!arvore[0].usado){
+        printf("Arvore vazia\n");
+        return FALHA;
+    }
+    while(q < NUM_NODES && arvore[q].usado && num != arvore[p].valor){
+        p = q;
+        if(num < arvore[p].valor){
+            q = 2 * p + 1;
+        }
+        else {
+            q = 2 * p + 2;
+        }
+    }
+    if(num == arvore[p].valor){
+        arvore[p].usado = 0;
+        return SUCESSO;
+    }
+    else {
+        printf("Elemento %d não encontrado\n", num);
+        return FALHA;
+    }
+}
+
+void Imprime_Arv(struct Arvore *arvore){
+    int p;
+    for(p = 0; p < NUM_NODES; p++){
+        if(arvore[p].usado){
+            printf("%d ", arvore[p].valor);
+        }
+    }
+    printf("\n");
 }
 
 int main(){
@@ -121,7 +141,7 @@ int main(){
     char numeros[BUFFER_SIZE];
 
     /* Criação da Árvore */
-    Arv arvore = NULL;
+    struct Arvore arvore[NUM_NODES];
 
     while(1){
         print_line();
@@ -135,7 +155,7 @@ int main(){
             char *num = strtok(numeros,", \n");
             while(num != NULL){
                 int converted = atoi(num);
-                Insere_Bin(&arvore, converted);
+                Insere_Bin(arvore, converted);
                 num = strtok(NULL,", \n");
             }
         }
@@ -145,7 +165,7 @@ int main(){
             char *num = strtok(numeros,", \n");
             while(num != NULL){
                 int converted = atoi(num);
-                Remove_Bin(&arvore, converted);
+                Remove_Bin(arvore, converted);
                 num = strtok(NULL,", \n");
             }
         }
@@ -153,15 +173,8 @@ int main(){
             printf("Opção inválida\n");
             return 1;
         }
-
-        printf("Pre Ordem:\n");
-        Pre_Ordem(&arvore);
-
-        printf("In Ordem:\n");
-        In_Ordem(&arvore);
-
-        printf("Pos Ordem:\n");
-        Pos_Ordem(&arvore);
+        
+        Imprime_Arv(arvore);
     }
 
     return 0;
