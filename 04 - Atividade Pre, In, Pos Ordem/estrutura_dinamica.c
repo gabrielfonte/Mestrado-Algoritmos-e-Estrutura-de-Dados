@@ -8,7 +8,7 @@
 
 #define BUFFER_SIZE 512
 
-#define print_line() printf("-------------------------------------------------\n")
+#define print_line() printf("\n-------------------------------------------------\n")
 
 enum opcoes {
     INSERIR = 1,
@@ -63,19 +63,19 @@ int Remove_Bin(Arv *arvore, int num){
                 free(*arvore); // Remove o nó
                 *arvore = NULL; // Atribui o NULL, sinalizando que pode ser inserido um novo valor
             }
-            /* Apenas a subárvore esquerda é nula, portanto o valor apontado pela subárvore é substituído */
+                /* Apenas a subárvore esquerda é nula, portanto o valor apontado pela subárvore é substituído */
             else if((*arvore)->esq == NULL) {
                 Arv aux = *arvore; // Guarda o valor do nó a ser removido
                 *arvore = (*arvore)->dir; // Substitui o valor do nó a ser removido pelo valor da subárvore direita
                 free(aux); // Libera o valor do nó a ser removido
             }
-            /* Apenas a subárvore direita é nula, portanto o valor apontado pela subárvore é substituído */
+                /* Apenas a subárvore direita é nula, portanto o valor apontado pela subárvore é substituído */
             else if((*arvore)->dir == NULL){
                 Arv aux = *arvore; // Guarda o valor do nó a ser removido
                 *arvore = (*arvore)->esq; // Substitui o valor do nó a ser removido pelo valor da subárvore esquerda
                 free(aux); // Libera o valor do nó a ser removido
             }
-            /* Nenhuma das subárvores são nulas */
+                /* Nenhuma das subárvores são nulas */
             else if((*arvore)->esq != NULL && (*arvore)->dir != NULL){
                 Arv aux = *arvore; // Guarda o valor do nó a ser removido
                 Arv aux2 = (*arvore)-> esq; // Guarda o valor da subárvore esquerda
@@ -93,11 +93,27 @@ int Remove_Bin(Arv *arvore, int num){
     return FALHA;
 }
 
-void Imprime_Arv(Arv *arvore){
+void Pre_Ordem(Arv *arvore){
     if((*arvore) != NULL){
-        Imprime_Arv(&(*arvore)->esq);
         printf("%d ", (*arvore)->valor);
-        Imprime_Arv(&(*arvore)->dir);
+        Pre_Ordem(&(*arvore)->esq);
+        Pre_Ordem(&(*arvore)->dir);
+    }
+}
+
+void In_Ordem(Arv *arvore){
+    if((*arvore) != NULL){
+        In_Ordem(&(*arvore)->esq);
+        printf("%d ", (*arvore)->valor);
+        In_Ordem(&(*arvore)->dir);
+    }
+}
+
+void Pos_Ordem(Arv *arvore){
+    if((*arvore) != NULL){
+        Pos_Ordem(&(*arvore)->esq);
+        Pos_Ordem(&(*arvore)->dir);
+        printf("%d ", (*arvore)->valor);
     }
 }
 
@@ -110,7 +126,6 @@ int main(){
     Arv arvore = NULL;
 
     while(1){
-        print_line();
         printf("Digite 1 para inserir um valor na árvore ou 2 para remover um valor da árvore: ");
         scanf("%d", &opcao);
         while (getchar() != '\n'); // Limpa o buffer do teclado
@@ -140,9 +155,20 @@ int main(){
             return 1;
         }
 
-        Imprime_Arv(&arvore);
-        printf("\n");
+        print_line();
+        printf("Pre Ordem:\n");
+        Pre_Ordem(&arvore);
+        print_line();
+
+        printf("In Ordem:\n");
+        In_Ordem(&arvore);
+        print_line();
+
+        printf("Pos Ordem:\n");
+        Pos_Ordem(&arvore);
+        print_line();
     }
 
     return 0;
 }
+

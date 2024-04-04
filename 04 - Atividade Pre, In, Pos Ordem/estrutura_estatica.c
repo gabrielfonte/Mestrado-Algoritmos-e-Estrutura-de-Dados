@@ -12,10 +12,12 @@
 #define BUFFER_SIZE 512
 #define NUM_NODES   500
 
-#define print_line() printf("-------------------------------------------------\n")
+#define print_line() printf("\n-------------------------------------------------\n")
 
 #define ESQ(n) 2*n+1
 #define DIR(n) 2*n+2
+
+#define INDICE_RAIZ 0
 
 enum opcoes {
     INSERIR = 1,
@@ -140,8 +142,8 @@ int Remove_Bin(struct Arvore *arvore, int num){
         }
         else {
             int r = DIR(p);
-            while (arvore[2 * r + 1].usado) {
-                r = 2 * r + 1;
+            while (arvore[ESQ(r)].usado) {
+                r = ESQ(r);
             }
             arvore[p].valor = arvore[r].valor;
             arvore[r].usado = false;
@@ -154,15 +156,28 @@ int Remove_Bin(struct Arvore *arvore, int num){
     }
 }
 
-
-void Imprime_Arv(struct Arvore *arvore){
-    int p;
-    for(p = 0; p < NUM_NODES; p++){
-        if(arvore[p].usado){
-            printf("%d ", arvore[p].valor);
-        }
+void Pre_Ordem(struct Arvore *arvore, int n){
+    if(arvore[n].usado){
+        printf("%d ", arvore[n].valor);
+        Pre_Ordem(arvore, ESQ(n));
+        Pre_Ordem(arvore, DIR(n));
     }
-    printf("\n");
+}
+
+void In_Ordem(struct Arvore *arvore, int n){
+    if(arvore[n].usado){
+        In_Ordem(arvore, ESQ(n));
+        printf("%d ", arvore[n].valor);
+        In_Ordem(arvore, DIR(n));
+    }
+}
+
+void Pos_Ordem(struct Arvore *arvore, int n){
+    if(arvore[n].usado){
+        Pos_Ordem(arvore, ESQ(n));
+        Pos_Ordem(arvore, DIR(n));
+        printf("%d ", arvore[n].valor);
+    }
 }
 
 int main(){
@@ -174,7 +189,6 @@ int main(){
     struct Arvore arvore[NUM_NODES];
 
     while(1){
-        print_line();
         printf("Digite 1 para inserir um valor na árvore ou 2 para remover um valor da árvore: ");
         scanf("%d", &opcao);
         while (getchar() != '\n'); // Limpa o buffer do teclado
@@ -203,8 +217,19 @@ int main(){
             printf("Opção inválida\n");
             return 1;
         }
-        
-        Imprime_Arv(arvore);
+
+        print_line();
+        printf("Pre Ordem:\n");
+        Pre_Ordem(arvore, INDICE_RAIZ);
+        print_line();
+
+        printf("In Ordem:\n");
+        In_Ordem(arvore,  INDICE_RAIZ);
+        print_line();
+
+        printf("Pos Ordem:\n");
+        Pos_Ordem(arvore, INDICE_RAIZ);
+        print_line();
     }
 
     return 0;
