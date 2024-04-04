@@ -140,8 +140,8 @@ int Remove_Bin(struct Arvore *arvore, int num){
         }
         else {
             int r = DIR(p);
-            while (arvore[2 * r + 1].usado) {
-                r = 2 * r + 1;
+            while (arvore[ESQ(r)].usado) {
+                r = ESQ(r);
             }
             arvore[p].valor = arvore[r].valor;
             arvore[r].usado = false;
