@@ -280,22 +280,39 @@ bool Remove_Bin(Arv *arvore, int num, bool *alt){
     else{
         Arv p1, p2;
         if((*arvore)->esq == NULL){
+            Arv temp = *arvore;
             *arvore = (*arvore)->dir;
+            free(temp);
             *alt = true;
+            return true;
         }
         else if((*arvore)->dir == NULL){
+            Arv temp = *arvore;
             *arvore = (*arvore)->esq;
+            free(temp);
             *alt = true;
+            return true;
         }
         else{
             p1 = (*arvore)->dir;
-            p2 = (*arvore)->dir;
+            p2 = NULL;
             while(p1->esq != NULL){
+                p2 = p1;
                 p1 = p1->esq;
             }
-            p1->esq = (*arvore)->esq;
-            *arvore = p2;
+            // Substitua o valor do nó a ser removido pelo valor do próximo maior valor.
+            (*arvore)->valor = p1->valor;
+            // Se o nó mais à esquerda tem um filho à direita, mova-o para a posição do nó mais à esquerda.
+            if(p2 != NULL) {
+                p2->esq = p1->dir;
+            }
+                // Se o nó mais à esquerda é o filho direito do nó a ser removido, atualize o ponteiro.
+            else {
+                (*arvore)->dir = p1->dir;
+            }
+            free(p1);
             *alt = true;
+            return true;
         }
     }
 
@@ -382,8 +399,6 @@ int main(){
 
         visualize_tree(&arvore);
     }
-
-    return 0;
 }
 
 
@@ -402,10 +417,11 @@ void drawTree(sf::RenderWindow& window, Arv* root, float x, float y, float offse
 
     // Desenha o valor do nó
     sf::Font font;
-    if (!font.loadFromFile("arial.ttf")) {
+    if (!font.loadFromFile("Arial.ttf")) {
         std::cerr << "Erro ao carregar a fonte." << std::endl;
         return;
     }
+
     sf::Text text(std::to_string((*root)->valor), font, 20);
     text.setPosition(x + 15, y + 10);
     text.setFillColor(sf::Color::Black);

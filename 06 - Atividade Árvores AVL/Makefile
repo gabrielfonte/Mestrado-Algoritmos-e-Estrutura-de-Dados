@@ -1,5 +1,5 @@
 CC = g++
-FLAGS += -std=c++11
+FLAGS += -std=c++17
 
 INCLUDE_DIR = '${shell pwd}'
 GRAPH_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
