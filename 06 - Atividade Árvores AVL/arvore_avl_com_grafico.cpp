@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cstdbool>
+#include <arvore_avl_com_grafico.hpp>
 
 #define BUFFER_SIZE 512
 #define print_line() printf("\n-------------------------------------------------\n")
@@ -412,12 +413,13 @@ void drawTree(sf::RenderWindow& window, Arv* root, float x, float y, float offse
     nodeShape.setPosition(x, y);
     nodeShape.setFillColor(sf::Color::White);
     nodeShape.setOutlineColor(sf::Color::Black);
-    nodeShape.setOutlineThickness(2);
+    nodeShape.setOutlineThickness(2
+    );
     window.draw(nodeShape);
 
     // Desenha o valor do nó
     sf::Font font;
-    if (!font.loadFromFile("Arial.ttf")) {
+    if (!font.loadFromMemory(arial_font, sizeof(arial_font))) {
         std::cerr << "Erro ao carregar a fonte." << std::endl;
         return;
     }
