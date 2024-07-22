@@ -14,4 +14,4 @@ clean:
 	rm -rf *.o
 
 run:
-	./atividade_grafo
+	./atividade_agm_prim

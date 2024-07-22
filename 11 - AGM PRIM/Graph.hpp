@@ -15,13 +15,36 @@ struct Node {
     int distance;
     int position;
     T value;
+    int pi = -1;
+
+    bool operator==(const Node &other) const {
+        return position == other.position;
+    }
 };
+
+namespace GraphAlgorithms{
+    template <typename T>
+    class MinHeapComparator {
+        public:
+        bool operator()(const Node<T>* a, const Node<T>* b) {
+            return a->distance > b->distance;
+        }
+    };
+    template <typename T>
+    class MaxHeapComparator {
+        public:
+        bool operator()(const Node<T>* a, const Node<T>* b) {
+            return a->distance < b->distance;
+        }
+    };
+}
 
 template <typename T>
 class Graph {
 protected:
-    std::vector<Node<T>> nodes; // Nodes
-    std::vector<std::vector<Node<T>*>> adj; // Adjacency list
+    std::vector<Node<T> > nodes; // Nodes
+    std::vector<std::vector<std::pair<Node<T>*, int> > > adj; // Adjacency list with weights
+
     int vertices; // Number of vertices
     int edges; // Number of edges
 
@@ -43,17 +66,18 @@ public:
         }
 
         this->nodes.push_back(node);
-        this->adj.push_back(std::vector<Node<T>*>());
+        this->adj.push_back(std::vector<std::pair<Node<T>*, int>>());
         this->vertices++;
     }
 
-    void addEdge(T v, T w){
+    void addEdge(T v, T w, int weight){
         int v_pos = this->getVertexPos(v);
         int w_pos = this->getVertexPos(w);
 
         if (v_pos < this->vertices) {
             if(w_pos < this->vertices) {
-                this->adj[v_pos].push_back(&(this->nodes[w_pos]));
+                this->adj[v_pos].push_back(std::make_pair(&(this->nodes[w_pos]), weight));
+                this->adj[w_pos].push_back(std::make_pair(&(this->nodes[v_pos]), weight));
             }
             else {
                 std::cout << stderr << "Vertex " << w << " not found" << std::endl;
@@ -71,6 +95,19 @@ public:
         for (auto node : this->nodes) {
             if (node.value == value) {
                 return node.position;
+            }
+        }
+        return -1;
+    }
+
+    int getEdgePos(T u, T v){
+        int u_pos = this->getVertexPos(u);
+        int v_pos = this->getVertexPos(v);
+        if(u_pos < this->vertices && v_pos < this->vertices){
+            for(auto it = this->adj[u_pos].begin(); it != this->adj[u_pos].end(); it++){
+                if(it->first->value == v){
+                    return it - this->adj[u_pos].begin();
+                }
             }
         }
         return -1;

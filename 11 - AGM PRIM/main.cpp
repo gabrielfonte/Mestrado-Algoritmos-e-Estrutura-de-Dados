@@ -2,53 +2,6 @@
 // Created by Gabriel Fonte on 09/07/24.
 //
 
-//Implemente a BFS e a DFS. A entrada deve ser um arquivo txt no seguinte formato:
-//1) a primeira linha lista os vértices de G
-//2) as linhas seguintes listam os pares de vértices que definem as arestas de G
-//Exemplo:
-//v0,v1,v2,v3
-//(v0,v2)
-//(v0,v1)
-//(v1,v2)
-//(v2,v3)
-//Lembrando que para um grafo não orientado, devemos ter para to.do par (vi,vj) o par (vj,vi).
-//Na ausência, o grafo será orientado.
-
-//BFS(G);
-///* G(V, A), |V| = n, |A| = m */
-///* Estruturas: cor – cores; π –  ́arvore; d – distancia */
-///* Cores: B (n ̃ao visitado), C (n ̃ao explorado) e P (explorado) */
-//
-//Para u = 1 ate n fa ̧ca
-//        cor[u] ← B;
-//π[u] ← nulo;
-//Fim-Para
-//        Para u = 1 ate n fa ̧ca
-//        Se cor[u] = B ent ̃ao
-//        VisitaBFS(u);
-//Fim-se
-//        Fim-para
-//
-//        Algoritmos B ́asicos em Grafos
-//        Algoritmo de visita da BFS
-
-//VisitaBFS(u)
-//cor[u] ← C;
-//d[u] ← 0;
-//Q ← {u};
-//Enquanto Q <> ∅ fa ̧ca
-//        u ← Desenfila(Q)
-//Para to.do v ∈ Adj[u] faca
-//        Se cor[v] = B ent ̃ao
-//        cor[v] ← C;
-//π[v] ← u;
-//d[v] ← d[u] + 1;
-//Enfileira(Q, v);
-//Fim-se
-//        Fim-para
-//        cor[u] ← P;
-//Fim-enquanto
-
 #include <iostream>
 #include <fstream>
 #include <list>
@@ -79,10 +32,14 @@ int main() {
         std::cin >> vertices;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+        std::cout << "Enter the root vertex: ";
+        std::cin >> root;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
         std::cout
-        << "Enter the edges list separated by commas in the following format (vi, vf). "
-           "To stop inserting vertices just enter an empty value:"
-        << std::endl;
+        << "\nEnter the edges list separated by commas in the following format (vi, w, vf). \n"
+           "To stop inserting vertices just enter an empty value: \n"
+           "Note: this is an undirected graph, so the edge (vi, vf) is the same as (vf, vi). \n";
 
         while (true) {
             std::string edge;
@@ -103,6 +60,7 @@ int main() {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::ifstream file(file_name);
         if(file.is_open()){
+            std::getline(file, root);
             std::getline(file, vertices);
             while(!file.eof()){
                 std::string edge;
@@ -122,21 +80,21 @@ int main() {
     }
 
     for(auto e : edges){
-        std::string v_origin, v_destiny;
+        std::string v_origin, v_destiny, weight;
         std::stringstream edge_stream(e);
         getline(edge_stream, v_origin, ',');
+        getline(edge_stream, weight, ',');
         getline(edge_stream, v_destiny, ',');
         v_origin.erase(std::remove(v_origin.begin(), v_origin.end(), '('), v_origin.end());
         v_destiny.erase(std::remove(v_destiny.begin(), v_destiny.end(), ')'), v_destiny.end());
-        prim.addEdge(v_origin, v_destiny);
-        std::cout << "Edge (" << v_origin << ", " << v_destiny << ") added." << std::endl;
+        weight.erase(std::remove(weight.begin(), weight.end(), 'p'), weight.end());
+        std::cout << "Origin: " << v_origin << " Destiny: " << v_destiny << " Weight: " << weight << std::endl;
+        prim.addEdge(v_origin, v_destiny, std::stoi(weight));
+        std::cout << "Edge (" << v_origin << ", " << v_destiny << ") with weight " << weight << " added." << std::endl;
     }
 
-    std::cout << "BFS search:" << std::endl;
-    bfs.search();
-
-    std::cout << "DFS search:" << std::endl;
-    dfs.search();
+    std::cout << "PRIM Tree:" << std::endl;
+    prim.generate_tree(root);
 
     return 0;
 }
