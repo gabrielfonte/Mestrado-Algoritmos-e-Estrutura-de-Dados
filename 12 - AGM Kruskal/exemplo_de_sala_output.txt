@@ -1,0 +1,53 @@
+------ KRUSKAL Activity -----
+Enter 1 to read from file or 2 to enter manually: 1
+Enter the file name: exemplo_de_sala.txt
+Vertex v0 added.
+Vertex v1 added.
+Vertex v2 added.
+Vertex v3 added.
+Vertex v4 added.
+Vertex v5 added.
+Vertex v6 added.
+Vertex v7 added.
+Vertex v8 added.
+Origin: v0 Destiny: v2 Weight: 1
+Edge (v0, v2) with weight 1 added.
+Origin: v1 Destiny: v2 Weight: 5
+Edge (v1, v2) with weight 5 added.
+Origin: v2 Destiny: v3 Weight: 3
+Edge (v2, v3) with weight 3 added.
+Origin: v2 Destiny: v7 Weight: 2
+Edge (v2, v7) with weight 2 added.
+Origin: v2 Destiny: v4 Weight: 2
+Edge (v2, v4) with weight 2 added.
+Origin: v3 Destiny: v7 Weight: 1
+Edge (v3, v7) with weight 1 added.
+Origin: v4 Destiny: v5 Weight: 1
+Edge (v4, v5) with weight 1 added.
+Origin: v5 Destiny: v6 Weight: 4
+Edge (v5, v6) with weight 4 added.
+Origin: v6 Destiny: v8 Weight: 1
+Edge (v6, v8) with weight 1 added.
+Origin: v7 Destiny: v8 Weight: 3
+Edge (v7, v8) with weight 3 added.
+KRUSKAL Tree:
+Edges:
+Adding edge (v0, v2) with weight 1
+Adding edge (v6, v8) with weight 1
+Adding edge (v3, v7) with weight 1
+Adding edge (v4, v5) with weight 1
+Adding edge (v2, v7) with weight 2
+Adding edge (v2, v4) with weight 2
+Adding edge (v7, v8) with weight 3
+Adding edge (v1, v2) with weight 5
+
+Minimal Tree:
+(v0, v2) with weight 1
+(v6, v8) with weight 1
+(v3, v7) with weight 1
+(v4, v5) with weight 1
+(v2, v7) with weight 2
+(v2, v4) with weight 2
+(v7, v8) with weight 3
+(v1, v2) with weight 5
+Total weight: 16
